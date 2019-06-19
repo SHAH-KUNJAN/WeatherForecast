@@ -1,4 +1,4 @@
-package com.example.weatherforcast;
+package com.example.weatherforcast.constants;
 
 public class Constants {
     public static final String API_KEY = "f1ce5525b4213da401f60232eb4221da";
