@@ -2,6 +2,8 @@ package com.example.weatherforcast.view;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,9 +18,11 @@ import android.widget.Toast;
 
 import com.example.weatherforcast.R;
 import com.example.weatherforcast.model.WeatherData;
+import com.example.weatherforcast.model.WeatherList;
 import com.example.weatherforcast.viewModel.WeatherDataViewModel;
 import com.nex3z.flowlayout.FlowLayout;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView mSearchBtn;
     private List<String> mCityName = new ArrayList<>();
     private WeatherDataViewModel mWeatherDataViewModel;
+    private List<WeatherList> mList = new ArrayList<>();
 
 
     @Override
@@ -52,7 +57,15 @@ public class MainActivity extends AppCompatActivity {
             mWeatherDataViewModel.loadWeatherData(mSearchBar.getText().toString() + ",IN");
             mWeatherDataViewModel.getWeatherData().observe(this, weatherData -> {
                 if (weatherData.getCod().equals("200")) {
-                    Toast.makeText(this, weatherData.getCity().getName(), Toast.LENGTH_SHORT).show();
+                    mList = weatherData.getList();
+                    /*Toast.makeText(this, weatherData.getCity().getName(), Toast.LENGTH_SHORT).show();*/
+                    Intent intent = new Intent(MainActivity.this, TempratureActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("EXTRAS_CITY", weatherData.getCity());
+                    // bundle.putParcelableArrayList("EXTRAS_LIST", (ArrayList<? extends Parcelable>) mList);
+                    intent.putExtras(bundle);
+                    intent.putParcelableArrayListExtra("EXTRAS_LIST", (ArrayList<? extends Parcelable>) mList);
+                    startActivity(intent);
                 } else {
                     Toast.makeText(this, "city not found", Toast.LENGTH_SHORT).show();
                 }

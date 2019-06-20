@@ -1,8 +1,11 @@
 package com.example.weatherforcast.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class Main {
+public class Main implements Parcelable {
 
     @SerializedName("temp")
     private double temp;
@@ -27,6 +30,29 @@ public class Main {
 
     @SerializedName("temp_kf")
     private double tempKf;
+
+    protected Main(Parcel in) {
+        temp = in.readDouble();
+        tempMin = in.readDouble();
+        tempMax = in.readDouble();
+        pressure = in.readDouble();
+        seaLevel = in.readDouble();
+        grndLevel = in.readDouble();
+        humidity = in.readDouble();
+        tempKf = in.readDouble();
+    }
+
+    public static final Parcelable.Creator<Main> CREATOR = new Parcelable.Creator<Main>() {
+        @Override
+        public Main createFromParcel(Parcel in) {
+            return new Main(in);
+        }
+
+        @Override
+        public Main[] newArray(int size) {
+            return new Main[size];
+        }
+    };
 
     public double getTemp() {
         return temp;
@@ -90,5 +116,22 @@ public class Main {
 
     public void setTempKf(double tempKf) {
         this.tempKf = tempKf;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeDouble(temp);
+        parcel.writeDouble(tempMin);
+        parcel.writeDouble(tempMax);
+        parcel.writeDouble(pressure);
+        parcel.writeDouble(seaLevel);
+        parcel.writeDouble(grndLevel);
+        parcel.writeDouble(humidity);
+        parcel.writeDouble(tempKf);
     }
 }

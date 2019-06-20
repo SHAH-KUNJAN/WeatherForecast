@@ -1,10 +1,13 @@
 package com.example.weatherforcast.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class OpenWeatherData {
+public class OpenWeatherData implements Parcelable {
 
     @SerializedName("base")
     private String base;
@@ -44,6 +47,37 @@ public class OpenWeatherData {
 
     @SerializedName("sys")
     private Sys2 sys;
+
+    protected OpenWeatherData(Parcel in) {
+        base = in.readString();
+        visibility = in.readInt();
+        cod = in.readString();
+        timezone = in.readInt();
+        id = in.readInt();
+        name = in.readString();
+        if (in.readByte() == 0) {
+            dt = null;
+        } else {
+            dt = in.readDouble();
+        }
+        coord = in.readParcelable(Coord.class.getClassLoader());
+        weather = in.createTypedArrayList(Weather.CREATOR);
+        main = in.readParcelable(Main.class.getClassLoader());
+        wind = in.readParcelable(Wind.class.getClassLoader());
+        clouds = in.readParcelable(Clouds.class.getClassLoader());
+    }
+
+    public static final Creator<OpenWeatherData> CREATOR = new Creator<OpenWeatherData>() {
+        @Override
+        public OpenWeatherData createFromParcel(Parcel in) {
+            return new OpenWeatherData(in);
+        }
+
+        @Override
+        public OpenWeatherData[] newArray(int size) {
+            return new OpenWeatherData[size];
+        }
+    };
 
     public String getBase() {
         return base;
@@ -147,5 +181,31 @@ public class OpenWeatherData {
 
     public void setSys(Sys2 sys) {
         this.sys = sys;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(base);
+        parcel.writeInt(visibility);
+        parcel.writeString(cod);
+        parcel.writeInt(timezone);
+        parcel.writeInt(id);
+        parcel.writeString(name);
+        if (dt == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeDouble(dt);
+        }
+        parcel.writeParcelable(coord, i);
+        parcel.writeTypedList(weather);
+        parcel.writeParcelable(main, i);
+        parcel.writeParcelable(wind, i);
+        parcel.writeParcelable(clouds, i);
     }
 }

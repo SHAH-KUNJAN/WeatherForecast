@@ -1,10 +1,14 @@
 package com.example.weatherforcast.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class WeatherData {
+public class WeatherData implements Parcelable {
 
     @SerializedName("cod")
     private String cod;
@@ -16,10 +20,34 @@ public class WeatherData {
     private Double cnt;
 
     @SerializedName("list")
-    private List<WeatherList> list;
+    private List<WeatherList> list = new ArrayList<>();
 
     @SerializedName("city")
     private City city;
+
+    protected WeatherData(Parcel in) {
+        cod = in.readString();
+        message = in.readDouble();
+        if (in.readByte() == 0) {
+            cnt = null;
+        } else {
+            cnt = in.readDouble();
+        }
+        list = in.createTypedArrayList(WeatherList.CREATOR);
+        city = in.readParcelable(City.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<WeatherData> CREATOR = new Parcelable.Creator<WeatherData>() {
+        @Override
+        public WeatherData createFromParcel(Parcel in) {
+            return new WeatherData(in);
+        }
+
+        @Override
+        public WeatherData[] newArray(int size) {
+            return new WeatherData[size];
+        }
+    };
 
     public String getCod() {
         return cod;
@@ -59,5 +87,24 @@ public class WeatherData {
 
     public void setCity(City city) {
         this.city = city;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(cod);
+        parcel.writeDouble(message);
+        if (cnt == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeDouble(cnt);
+        }
+        parcel.writeTypedList(this.list);
+        parcel.writeParcelable(this.city, i);
     }
 }

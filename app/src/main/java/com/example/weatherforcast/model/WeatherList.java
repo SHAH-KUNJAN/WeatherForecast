@@ -1,10 +1,13 @@
 package com.example.weatherforcast.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class WeatherList {
+public class WeatherList implements Parcelable {
 
     @SerializedName("main")
     private Main main;
@@ -27,6 +30,29 @@ public class WeatherList {
     @SerializedName("dt_txt")
     private String dtTxt;
 
+
+    protected WeatherList(Parcel in) {
+        dtTxt = in.readString();
+        weather = in.createTypedArrayList(Weather.CREATOR);
+        main = in.readParcelable(Main.class.getClassLoader());
+        clouds = in.readParcelable(Clouds.class.getClassLoader());
+        wind = in.readParcelable(Wind.class.getClassLoader());
+        rain = in.readParcelable(rain.class.getClassLoader());
+        sys = in.readParcelable(Sys.class.getClassLoader());
+
+    }
+
+    public static final Parcelable.Creator<WeatherList> CREATOR = new Parcelable.Creator<WeatherList>() {
+        @Override
+        public WeatherList createFromParcel(Parcel in) {
+            return new WeatherList(in);
+        }
+
+        @Override
+        public WeatherList[] newArray(int size) {
+            return new WeatherList[size];
+        }
+    };
 
     public Main getMain() {
         return main;
@@ -82,5 +108,22 @@ public class WeatherList {
 
     public void setDtTxt(String dtTxt) {
         this.dtTxt = dtTxt;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(dtTxt);
+        parcel.writeParcelable(this.clouds, i);
+        parcel.writeParcelable(this.main, i);
+        parcel.writeParcelable(this.rain, i);
+        parcel.writeParcelable(this.sys, i);
+        parcel.writeParcelable(this.wind, i);
+        parcel.writeTypedList(this.weather);
+
     }
 }
