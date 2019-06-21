@@ -19,24 +19,6 @@ public class Weather implements Parcelable {
     @SerializedName("icon")
     private String icon;
 
-    protected Weather(Parcel in) {
-        id = in.readInt();
-        main = in.readString();
-        description = in.readString();
-        icon = in.readString();
-    }
-
-    public static final Parcelable.Creator<Weather> CREATOR = new Parcelable.Creator<Weather>() {
-        @Override
-        public Weather createFromParcel(Parcel in) {
-            return new Weather(in);
-        }
-
-        @Override
-        public Weather[] newArray(int size) {
-            return new Weather[size];
-        }
-    };
 
     public int getId() {
         return id;
@@ -70,16 +52,39 @@ public class Weather implements Parcelable {
         this.icon = icon;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(id);
-        parcel.writeString(main);
-        parcel.writeString(description);
-        parcel.writeString(icon);
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeString(this.main);
+        dest.writeString(this.description);
+        dest.writeString(this.icon);
     }
+
+    public Weather() {
+    }
+
+    protected Weather(Parcel in) {
+        this.id = in.readInt();
+        this.main = in.readString();
+        this.description = in.readString();
+        this.icon = in.readString();
+    }
+
+    public static final Parcelable.Creator<Weather> CREATOR = new Parcelable.Creator<Weather>() {
+        @Override
+        public Weather createFromParcel(Parcel source) {
+            return new Weather(source);
+        }
+
+        @Override
+        public Weather[] newArray(int size) {
+            return new Weather[size];
+        }
+    };
 }

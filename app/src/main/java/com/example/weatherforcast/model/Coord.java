@@ -13,22 +13,7 @@ public class Coord implements Parcelable {
     @SerializedName("lon")
     private double lon;
 
-    protected Coord(Parcel in) {
-        lat = in.readDouble();
-        lon = in.readDouble();
-    }
 
-    public static final Creator<Coord> CREATOR = new Creator<Coord>() {
-        @Override
-        public Coord createFromParcel(Parcel in) {
-            return new Coord(in);
-        }
-
-        @Override
-        public Coord[] newArray(int size) {
-            return new Coord[size];
-        }
-    };
 
     public double getLat() {
         return lat;
@@ -52,8 +37,28 @@ public class Coord implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeDouble(lat);
-        parcel.writeDouble(lon);
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeDouble(this.lat);
+        dest.writeDouble(this.lon);
     }
+
+    public Coord() {
+    }
+
+    protected Coord(Parcel in) {
+        this.lat = in.readDouble();
+        this.lon = in.readDouble();
+    }
+
+    public static final Parcelable.Creator<Coord> CREATOR = new Parcelable.Creator<Coord>() {
+        @Override
+        public Coord createFromParcel(Parcel source) {
+            return new Coord(source);
+        }
+
+        @Override
+        public Coord[] newArray(int size) {
+            return new Coord[size];
+        }
+    };
 }

@@ -13,22 +13,6 @@ public class Wind implements Parcelable {
     @SerializedName("deg")
     private double deg;
 
-    protected Wind(Parcel in) {
-        speed = in.readDouble();
-        deg = in.readDouble();
-    }
-
-    public static final Parcelable.Creator<Wind> CREATOR = new Parcelable.Creator<Wind>() {
-        @Override
-        public Wind createFromParcel(Parcel in) {
-            return new Wind(in);
-        }
-
-        @Override
-        public Wind[] newArray(int size) {
-            return new Wind[size];
-        }
-    };
 
     public double getSpeed() {
         return speed;
@@ -52,8 +36,28 @@ public class Wind implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeDouble(speed);
-        parcel.writeDouble(deg);
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeDouble(this.speed);
+        dest.writeDouble(this.deg);
     }
+
+    public Wind() {
+    }
+
+    protected Wind(Parcel in) {
+        this.speed = in.readDouble();
+        this.deg = in.readDouble();
+    }
+
+    public static final Parcelable.Creator<Wind> CREATOR = new Parcelable.Creator<Wind>() {
+        @Override
+        public Wind createFromParcel(Parcel source) {
+            return new Wind(source);
+        }
+
+        @Override
+        public Wind[] newArray(int size) {
+            return new Wind[size];
+        }
+    };
 }

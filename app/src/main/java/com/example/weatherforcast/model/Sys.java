@@ -10,21 +10,7 @@ public class Sys implements Parcelable {
     @SerializedName("pod")
     private String pod;
 
-    protected Sys(Parcel in) {
-        pod = in.readString();
-    }
 
-    public static final Parcelable.Creator<Sys> CREATOR = new Parcelable.Creator<Sys>() {
-        @Override
-        public Sys createFromParcel(Parcel in) {
-            return new Sys(in);
-        }
-
-        @Override
-        public Sys[] newArray(int size) {
-            return new Sys[size];
-        }
-    };
 
     public String getPod() {
         return pod;
@@ -40,7 +26,26 @@ public class Sys implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(pod);
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.pod);
     }
+
+    public Sys() {
+    }
+
+    protected Sys(Parcel in) {
+        this.pod = in.readString();
+    }
+
+    public static final Parcelable.Creator<Sys> CREATOR = new Parcelable.Creator<Sys>() {
+        @Override
+        public Sys createFromParcel(Parcel source) {
+            return new Sys(source);
+        }
+
+        @Override
+        public Sys[] newArray(int size) {
+            return new Sys[size];
+        }
+    };
 }

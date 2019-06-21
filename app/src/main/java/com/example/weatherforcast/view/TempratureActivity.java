@@ -51,9 +51,9 @@ public class TempratureActivity extends AppCompatActivity {
                 .load(Constants.IMAGE_URL + icon + Constants.PNG)
                 .into(mImageView);
 
-        mMin.setText(convertToCelsius(mWeatherList.get(0).getMain().getTempMin()));
-        mMax.setText(convertToCelsius(mWeatherList.get(0).getMain().getTempMax()));
-        mCurrent.setText(convertToCelsius(mWeatherList.get(0).getMain().getTemp()));
+        mMin.setText(String.valueOf(mWeatherList.get(0).getMain().getTempMin()));
+        mMax.setText(String.valueOf(mWeatherList.get(0).getMain().getTempMax()));
+        mCurrent.setText(String.valueOf(mWeatherList.get(0).getMain().getTemp()));
         mCity.setText(mCityClass.getName());
         try {
             mDay.setText(dayOfTheWeek(mWeatherList.get(0).getDtTxt()));

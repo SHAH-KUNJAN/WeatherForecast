@@ -25,29 +25,6 @@ public class WeatherData implements Parcelable {
     @SerializedName("city")
     private City city;
 
-    protected WeatherData(Parcel in) {
-        cod = in.readString();
-        message = in.readDouble();
-        if (in.readByte() == 0) {
-            cnt = null;
-        } else {
-            cnt = in.readDouble();
-        }
-        list = in.createTypedArrayList(WeatherList.CREATOR);
-        city = in.readParcelable(City.class.getClassLoader());
-    }
-
-    public static final Parcelable.Creator<WeatherData> CREATOR = new Parcelable.Creator<WeatherData>() {
-        @Override
-        public WeatherData createFromParcel(Parcel in) {
-            return new WeatherData(in);
-        }
-
-        @Override
-        public WeatherData[] newArray(int size) {
-            return new WeatherData[size];
-        }
-    };
 
     public String getCod() {
         return cod;
@@ -89,22 +66,41 @@ public class WeatherData implements Parcelable {
         this.city = city;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(cod);
-        parcel.writeDouble(message);
-        if (cnt == null) {
-            parcel.writeByte((byte) 0);
-        } else {
-            parcel.writeByte((byte) 1);
-            parcel.writeDouble(cnt);
-        }
-        parcel.writeTypedList(this.list);
-        parcel.writeParcelable(this.city, i);
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.cod);
+        dest.writeDouble(this.message);
+        dest.writeValue(this.cnt);
+        dest.writeTypedList(this.list);
+        dest.writeParcelable(this.city, flags);
     }
+
+    public WeatherData() {
+    }
+
+    protected WeatherData(Parcel in) {
+        this.cod = in.readString();
+        this.message = in.readDouble();
+        this.cnt = (Double) in.readValue(Double.class.getClassLoader());
+        this.list = in.createTypedArrayList(WeatherList.CREATOR);
+        this.city = in.readParcelable(City.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<WeatherData> CREATOR = new Parcelable.Creator<WeatherData>() {
+        @Override
+        public WeatherData createFromParcel(Parcel source) {
+            return new WeatherData(source);
+        }
+
+        @Override
+        public WeatherData[] newArray(int size) {
+            return new WeatherData[size];
+        }
+    };
 }

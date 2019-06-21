@@ -1,28 +1,22 @@
 package com.example.weatherforcast.view;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Parcelable;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.weatherforcast.R;
-import com.example.weatherforcast.model.WeatherData;
 import com.example.weatherforcast.model.WeatherList;
 import com.example.weatherforcast.viewModel.WeatherDataViewModel;
 import com.nex3z.flowlayout.FlowLayout;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

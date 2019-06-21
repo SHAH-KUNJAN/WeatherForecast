@@ -25,25 +25,7 @@ public class City implements Parcelable {
     @SerializedName("timezone")
     private int timezone;
 
-    protected City(Parcel in) {
-        id = in.readInt();
-        name = in.readString();
-        country = in.readString();
-        population = in.readDouble();
-        timezone = in.readInt();
-    }
 
-    public static final Creator<City> CREATOR = new Creator<City>() {
-        @Override
-        public City createFromParcel(Parcel in) {
-            return new City(in);
-        }
-
-        @Override
-        public City[] newArray(int size) {
-            return new City[size];
-        }
-    };
 
     public int getId() {
         return id;
@@ -93,17 +75,43 @@ public class City implements Parcelable {
         this.timezone = timezone;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(id);
-        parcel.writeString(name);
-        parcel.writeString(country);
-        parcel.writeDouble(population);
-        parcel.writeInt(timezone);
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeString(this.name);
+        dest.writeParcelable(this.coord, flags);
+        dest.writeString(this.country);
+        dest.writeDouble(this.population);
+        dest.writeInt(this.timezone);
     }
+
+    public City() {
+    }
+
+    protected City(Parcel in) {
+        this.id = in.readInt();
+        this.name = in.readString();
+        this.coord = in.readParcelable(Coord.class.getClassLoader());
+        this.country = in.readString();
+        this.population = in.readDouble();
+        this.timezone = in.readInt();
+    }
+
+    public static final Parcelable.Creator<City> CREATOR = new Parcelable.Creator<City>() {
+        @Override
+        public City createFromParcel(Parcel source) {
+            return new City(source);
+        }
+
+        @Override
+        public City[] newArray(int size) {
+            return new City[size];
+        }
+    };
 }

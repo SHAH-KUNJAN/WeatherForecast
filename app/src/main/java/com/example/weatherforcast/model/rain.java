@@ -10,21 +10,7 @@ public class rain implements Parcelable {
     @SerializedName("3h")
     private double h3;
 
-    protected rain(Parcel in) {
-        h3 = in.readDouble();
-    }
 
-    public static final Parcelable.Creator<rain> CREATOR = new Parcelable.Creator<rain>() {
-        @Override
-        public rain createFromParcel(Parcel in) {
-            return new rain(in);
-        }
-
-        @Override
-        public rain[] newArray(int size) {
-            return new rain[size];
-        }
-    };
 
     public double getH3() {
         return h3;
@@ -40,7 +26,26 @@ public class rain implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeDouble(h3);
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeDouble(this.h3);
     }
+
+    public rain() {
+    }
+
+    protected rain(Parcel in) {
+        this.h3 = in.readDouble();
+    }
+
+    public static final Parcelable.Creator<rain> CREATOR = new Parcelable.Creator<rain>() {
+        @Override
+        public rain createFromParcel(Parcel source) {
+            return new rain(source);
+        }
+
+        @Override
+        public rain[] newArray(int size) {
+            return new rain[size];
+        }
+    };
 }

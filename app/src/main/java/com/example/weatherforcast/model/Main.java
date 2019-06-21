@@ -31,28 +31,7 @@ public class Main implements Parcelable {
     @SerializedName("temp_kf")
     private double tempKf;
 
-    protected Main(Parcel in) {
-        temp = in.readDouble();
-        tempMin = in.readDouble();
-        tempMax = in.readDouble();
-        pressure = in.readDouble();
-        seaLevel = in.readDouble();
-        grndLevel = in.readDouble();
-        humidity = in.readDouble();
-        tempKf = in.readDouble();
-    }
 
-    public static final Parcelable.Creator<Main> CREATOR = new Parcelable.Creator<Main>() {
-        @Override
-        public Main createFromParcel(Parcel in) {
-            return new Main(in);
-        }
-
-        @Override
-        public Main[] newArray(int size) {
-            return new Main[size];
-        }
-    };
 
     public double getTemp() {
         return temp;
@@ -118,20 +97,47 @@ public class Main implements Parcelable {
         this.tempKf = tempKf;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeDouble(temp);
-        parcel.writeDouble(tempMin);
-        parcel.writeDouble(tempMax);
-        parcel.writeDouble(pressure);
-        parcel.writeDouble(seaLevel);
-        parcel.writeDouble(grndLevel);
-        parcel.writeDouble(humidity);
-        parcel.writeDouble(tempKf);
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeDouble(this.temp);
+        dest.writeDouble(this.tempMin);
+        dest.writeDouble(this.tempMax);
+        dest.writeDouble(this.pressure);
+        dest.writeDouble(this.seaLevel);
+        dest.writeDouble(this.grndLevel);
+        dest.writeDouble(this.humidity);
+        dest.writeDouble(this.tempKf);
     }
+
+    public Main() {
+    }
+
+    protected Main(Parcel in) {
+        this.temp = in.readDouble();
+        this.tempMin = in.readDouble();
+        this.tempMax = in.readDouble();
+        this.pressure = in.readDouble();
+        this.seaLevel = in.readDouble();
+        this.grndLevel = in.readDouble();
+        this.humidity = in.readDouble();
+        this.tempKf = in.readDouble();
+    }
+
+    public static final Parcelable.Creator<Main> CREATOR = new Parcelable.Creator<Main>() {
+        @Override
+        public Main createFromParcel(Parcel source) {
+            return new Main(source);
+        }
+
+        @Override
+        public Main[] newArray(int size) {
+            return new Main[size];
+        }
+    };
 }
