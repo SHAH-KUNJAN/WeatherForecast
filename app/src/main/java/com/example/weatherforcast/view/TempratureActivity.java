@@ -3,12 +3,14 @@ package com.example.weatherforcast.view;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.weatherforcast.R;
+import com.example.weatherforcast.adapter.WeatherAdapter;
 import com.example.weatherforcast.constants.Constants;
 import com.example.weatherforcast.model.City;
 import com.example.weatherforcast.model.WeatherData;
@@ -62,9 +64,15 @@ public class TempratureActivity extends AppCompatActivity {
         }
 
 
+        mRecyclerView = findViewById(R.id.tempRecyclerview);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        WeatherAdapter mWeatherAdapter = new WeatherAdapter(mWeatherList,this);
+        mRecyclerView.setAdapter(mWeatherAdapter);
+
+
     }
 
-    private String dayOfTheWeek(String date) throws ParseException {
+    public static String dayOfTheWeek(String date) throws ParseException {
         SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");
         Date dt1 = format1.parse(date);
         DateFormat format2 = new SimpleDateFormat("EEEE");

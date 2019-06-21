@@ -4,13 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_orange_light"
     tools:context=".view.TempratureActivity">
 
     <ImageView
         android:id="@+id/tempImgView"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
@@ -18,10 +17,8 @@
         android:layout_alignParentRight="true"
         android:layout_marginStart="131dp"
         android:layout_marginLeft="131dp"
-        android:layout_marginTop="20dp"
         android:layout_marginEnd="130dp"
         android:layout_marginRight="130dp"
-        android:layout_marginBottom="10dp"
         android:contentDescription="Temp Img" />
 
     <TextView
@@ -47,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tempImgView"
         android:layout_centerHorizontal="true"
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
         android:gravity="center"
         android:padding="10dp"
         android:textColor="@android:color/black"
@@ -79,9 +76,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tempcurrent"
         android:layout_centerHorizontal="true"
-        android:layout_margin="10dp"
+        android:layout_margin="3dp"
         android:gravity="center"
-        android:padding="10dp"
+        android:padding="5dp"
         android:textSize="14sp"
         android:textStyle="bold"
         tools:text="Mumbai" />
@@ -92,20 +89,20 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tempCity"
         android:layout_centerHorizontal="true"
-        android:layout_margin="10dp"
+        android:layout_margin="3dp"
         android:gravity="center"
-        android:padding="10dp"
+        android:padding="5dp"
         android:textSize="14sp"
         android:textStyle="bold"
         tools:text="Sunday" />
 
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/tempRecyclerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/tempToday"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="10dp"
         android:scrollbars="horizontal"
         tools:listitem="@layout/item_5_day_temp" />
 
